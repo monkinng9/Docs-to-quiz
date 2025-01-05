@@ -62,7 +62,5 @@ flowchart TB
 ### Section 1: Study Phase
 - Goals:
   - Use CrewAI Agents to summarize a document and guide study
-  - Use CrewAI Agents to plan quiz
 - Use Deepseek V3 via LiteLLM - Openrouter
-- 'Summarize' crew 
-- 'Plan Quiz' crew
+- 'Summarize and study guide' crew
