@@ -1,4 +1,4 @@
-# Document to Quiz Generator
+# Document to Quiz Generator via CrewAI
 
 ## Overview
 This educational project is designed to transform documents into interactive quizzes, helping learners engage with and retain information more effectively.
