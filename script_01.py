@@ -9,7 +9,8 @@ from datetime import datetime
 openlit.init(otlp_endpoint="http://127.0.0.1:4318")
 
 # Create an LLM with a temperature of 0 to ensure deterministic outputs
-llm = LLM(model="openrouter/deepseek/deepseek-chat", temperature=0.7)
+google_api_key = os.getenv("GOOGLE_API_KEY")
+llm = LLM(model="gemini/gemini-2.0-flash-exp", temperature=0.7, api_key=google_api_key)
 
 class QuizConfig(BaseModel):
     multiple_choice_count: Optional[int] = Field(None, description="Number of multiple choice questions")
