@@ -15,47 +15,20 @@ This educational project is designed to transform documents into interactive qui
 ## Diagram
 
 ```mermaid
-flowchart TB
-    %% Main nodes
-    Start([Start]) --> Doc[Input Document]
+flowchart LR
+    input[Input Document] --> extract[Information Extraction]
+    extract --> generate[Content Generation]
     
-    %% Study Phase
-    Doc --> StudyAgents[Study Agents]
-    StudyAgents --> Summary[Document Summary]
-    StudyAgents --> Guide[Study Guide]
+    generate --> sum[Summary]
+    generate --> guide[Study Guide]
+    generate --> quiz[Quiz & Answers]
     
-    %% Quiz Planning Phase
-    Summary & Guide --> QuizPlanner[Quiz Planning Agents]
-    QuizPlanner --> Plan{Quiz Plan<br/>JSON}
-    Plan --> |Manual Review|Modified{Modified Plan<br/>JSON}
-    
-    %% Quiz Creation Phase
-    Modified --> QuizCreator[Quiz Creation Agents]
-    QuizCreator --> Quiz{Quiz<br/>JSON}
-    
-    %% Quiz Taking Phase
-    Quiz --> Interface[Quiz Interface]
-    Interface --> |Student Takes Quiz|Answers{Student<br/>Answers}
-    Answers --> CheckAgents[Answer Checking Agents]
-    CheckAgents --> Feedback[Feedback & Score]
-    
-    %% OpenLIT Monitoring
-    Monitor[[OpenLIT Monitor]]
-    Monitor -.-|Observes|StudyAgents & QuizPlanner & QuizCreator & CheckAgents
-    
-    %% Styling
-    classDef agents fill:#f9f,stroke:#333,stroke-width:2px
-    classDef data fill:#fff,stroke:#333,stroke-width:2px
-    classDef json fill:#fcf,stroke:#333,stroke-width:2px,stroke-dasharray: 5 5
-    classDef monitor fill:#ccf,stroke:#333,stroke-width:2px
-    classDef start fill:#9f9,stroke:#333,stroke-width:2px
-    
-    class StudyAgents,QuizPlanner,QuizCreator,CheckAgents agents
-    class Summary,Guide,Interface,Feedback data
-    class Plan,Modified,Quiz,Answers json
-    class Monitor monitor
-    class Start start
-    class Doc data
+    sum --> final[Final Document]
+    guide --> final
+    quiz --> final
+
+    style input fill:#e1f5fe
+    style final fill:#e8f5e9
 ```
 
 ## Requirements
