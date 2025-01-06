@@ -1,0 +1,5 @@
+crewai==0.95.0
+crewai-tools==0.25.8
+langchain_community==0.3.14
+openlit==1.33.2
+llama-index==0.12.9
