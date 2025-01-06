@@ -110,6 +110,8 @@ extract_info_task = Task(
 
 write_summary_task = Task(
     description=(
+        "From document:"
+        f"{string_source}\n\n"
         "Create an integrated summary that serves as a foundation for the study guide and quiz.\n"
         "Structure the summary to:\n"
         "1. Begin with a concise overview (1-2 paragraphs) that introduces the main concepts\n"
@@ -219,7 +221,7 @@ crew_ai = Crew(
         create_quiz_answers_task
     ],
     process=Process.sequential,
-    memory=True,
+    memory=False,
     cache=True,
     verbose=True
 )
