@@ -1,33 +1,63 @@
 # Document to Quiz Generator via CrewAI
 
 ## Overview
-This educational project is designed to transform documents into interactive quizzes, helping learners engage with and retain information more effectively.
+This educational project is designed to transform documents into interactive quizzes, helping learners engage with and retain information more effectively. It uses a YAML-based configuration system for easy customization of agents and tasks.
 
 ## Features
 - Convert text documents into quiz-style questions
 - Generate multiple-choice and open-ended questions
 - Support for various document formats
+- YAML-based configuration for easy customization
+- Modular architecture with separate configuration and code
+- Automatic generation of summaries and study guides
 
 ## Project Structure
-- `script_01.py`: Main script for generating quizzes
-- `output/complete_document.md`: Generated quiz document
+```
+docs_to_quiz/
+├── configs/
+│   ├── agents.yaml     # Agent configurations
+│   ├── tasks.yaml      # Task configurations
+│   ├── config_loader.py # Configuration loading utilities
+│   └── models.py       # Pydantic data models
+├── input/              # Input documents
+│   └── doc_02_flow_content.md
+├── output/            # Generated content
+│   ├── summary.md
+│   ├── study_guide.md
+│   ├── quiz_questions.md
+│   ├── quiz_answers.md
+│   └── combined_output.md
+├── script_01.py       # Main execution script
+└── README.md
+```
 
-## Diagram
+## System Architecture
 
 ```mermaid
-flowchart LR
-    input[Input Document] --> extract[Information Extraction]
-    extract --> generate[Content Generation]
-    
-    generate --> sum[Summary]
-    generate --> guide[Study Guide]
-    generate --> quiz[Quiz & Answers]
-    
-    sum --> final[Final Document]
-    guide --> final
-    quiz --> final
+flowchart TB
+    subgraph Configuration
+        yaml[YAML Files] --> loader[Config Loader]
+        loader --> agents[Agent Instances]
+        loader --> tasks[Task Instances]
+    end
 
-    style input fill:#e1f5fe
+    subgraph Execution
+        input[Input Document] --> extract[Information Extraction]
+        extract --> generate[Content Generation]
+        
+        generate --> sum[Summary]
+        generate --> guide[Study Guide]
+        generate --> quiz[Quiz & Answers]
+        
+        sum --> final[Final Document]
+        guide --> final
+        quiz --> final
+    end
+
+    Configuration --> Execution
+
+    style yaml fill:#e1f5fe
+    style loader fill:#e1f5fe
     style final fill:#e8f5e9
 ```
 
@@ -35,49 +65,46 @@ flowchart LR
 
 ### Python Dependencies
 The project uses the following key dependencies:
-- `crewai` (v0.95.0): AI agent framework
-- `crewai-tools` (v0.25.8): Additional tools for CrewAI
-- `langchain_community` (v0.3.14): LangChain community integrations
-- `openlit` (v1.33.2): Observability and monitoring
-- `llama-index` (v0.12.9): Document indexing and retrieval
+- `crewai`: AI agent framework for orchestrating tasks
+- `pydantic`: Data validation using Python type annotations
+- `PyYAML`: YAML file parsing and loading
+- `openlit`: Observability and monitoring
 
 To install dependencies, run:
 ```bash
 pip install -r requirements.txt
 ```
 
-### Docker Compose Setup
-The project includes a Docker Compose configuration for easy deployment and observability:
+## Configuration
 
-#### Services
-1. **ClickHouse**: Database for storing observability data
-   - Port: 9000, 8123
-   - Configurable username and password
+### Agent Configuration (agents.yaml)
+Configure AI agents with specific roles and capabilities:
+```yaml
+extract_agent:
+  role: "Information Extractor"
+  goal: "To analyze documents and extract key information"
+  backstory: "A seasoned researcher with an eye for detail..."
 
-2. **OpenLIT**: Observability platform
-   - Port: 3002
-   - Integrated with ClickHouse for monitoring
-
-3. **OpenTelemetry Collector**: 
-   - Collects and processes telemetry data
-   - Ports: 4317, 4318, 8889, 55679
-
-#### Running with Docker Compose
-```bash
-# Ensure Docker and Docker Compose are installed
-docker-compose up -d
+writer_agent:
+  role: "Content Writer and Educator"
+  goal: "To create clear summaries and engaging quizzes"
+  backstory: "A skilled educator with expertise..."
 ```
 
-### Environment Variables
-Customize the deployment using environment variables:
-- `OPENLIT_DB_USER`: Database username (default: `default`)
-- `OPENLIT_DB_PASSWORD`: Database password (default: `OPENLIT`)
-- `OPENLIT_DB_NAME`: Database name (default: `openlit`)
+### Task Configuration (tasks.yaml)
+Define tasks with templates and expected outputs:
+```yaml
+tasks:
+  extract_info:
+    description_template: "Extract key information from..."
+    expected_output: "A structured dictionary of information..."
+    agent: extract_agent
 
-#### Notes
-- Persistent volumes are used for ClickHouse and OpenLIT data
-- Services are configured to restart automatically
-- Telemetry can be disabled by setting `TELEMETRY_ENABLED` to `false`
+  write_summary:
+    description_template: "Create an integrated summary..."
+    expected_output: "A markdown formatted summary..."
+    agent: writer_agent
+```
 
 ## Getting Started
 
@@ -88,15 +115,36 @@ Customize the deployment using environment variables:
 ### Installation
 1. Clone the repository
 2. Install dependencies: `pip install -r requirements.txt`
+3. Configure your environment variables if needed
 
 ### Usage
-Run the quiz generation script:
+1. Place your input document in the `input/` directory
+2. Customize agent and task configurations in `configs/*.yaml` if needed
+3. Run the generation script:
 ```bash
 python script_01.py
 ```
+4. Find generated content in the `output/` directory
+
+## Monitoring and Observability
+The project includes integration with OpenLIT for monitoring:
+
+### OpenLIT Setup
+1. Start the OpenLIT services:
+```bash
+docker-compose up -d
+```
+
+2. Access the OpenLIT dashboard at `http://localhost:3002`
+
+### Environment Variables
+Configure the deployment using environment variables:
+- `OPENLIT_DB_USER`: Database username (default: `default`)
+- `OPENLIT_DB_PASSWORD`: Database password (default: `OPENLIT`)
+- `OPENLIT_DB_NAME`: Database name (default: `openlit`)
 
 ## Contributing
 Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
-This project is for educational purposes.
+This project is licensed under the MIT License - see the LICENSE file for details.
