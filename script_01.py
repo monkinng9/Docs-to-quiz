@@ -6,10 +6,10 @@ import os
 import json
 from datetime import datetime
 
-openlit.init(otlp_endpoint="http://127.0.0.1:4318")
+openlit.init(otlp_endpoint="http://127.0.0.1:4318", application_name="Disable Memory")
 # Create an LLM with a temperature of 0 to ensure deterministic outputs
 google_api_key = os.getenv("GOOGLE_API_KEY")
-llm = LLM(model="openrouter/deepseek/deepseek-chat", temperature=0.7)
+llm = LLM(model="openrouter/google/gemini-pro-1.5", temperature=0.7)
 
 class QuizConfig(BaseModel):
     multiple_choice_count: Optional[int] = Field(None, description="Number of multiple choice questions")
