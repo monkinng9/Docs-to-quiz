@@ -31,6 +31,7 @@ tasks:
         'facts': [list of important facts and data]
       }
     agent: extract_agent
+    context: []  # No dependencies for initial extraction
 
   write_summary:
     description_template: |
@@ -54,6 +55,7 @@ tasks:
       between sections. The summary should serve as a foundation for the study guide and quiz.
     agent: writer_agent
     output_file: "{output_paths.summary}"
+    context: ["extract_info"]  # Depends on extracted information
 
   create_study_guide:
     description_template: |
@@ -73,6 +75,7 @@ tasks:
       and prepares readers for the quiz through targeted review prompts.
     agent: writer_agent
     output_file: "{output_paths.study_guide}"
+    context: ["extract_info", "write_summary"]  # Depends on both extraction and summary
 
   create_quiz:
     description_template: |
@@ -94,6 +97,7 @@ tasks:
       progressive complexity and clear organization by topic.
     agent: writer_agent
     output_file: "{output_paths.quiz}"
+    context: ["extract_info", "write_summary", "create_study_guide"]  # Depends on all previous tasks
 
   create_quiz_answers:
     description_template: |
@@ -112,3 +116,4 @@ tasks:
       and connections to the summary and study guide.
     agent: writer_agent
     output_file: "{output_paths.answers}"
+    context: ["create_quiz"]  # Depends on quiz questions

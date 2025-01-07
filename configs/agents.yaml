@@ -1,3 +1,17 @@
+# LLM Configurations
+llm_configs:
+  gemini_pro:
+    model: "openrouter/google/gemini-pro-1.5"
+    temperature: 0.7
+  
+  gpt4:
+    model: "openai/gpt-4"
+    temperature: 0.5
+    
+  gpt35_turbo:
+    model: "openai/gpt-3.5-turbo"
+    temperature: 0.3
+
 # Agent configurations
 extract_agent:
   role: "Information Extractor"
@@ -10,6 +24,7 @@ extract_agent:
   allow_delegation: false
   respect_context_window: true
   verbose: true
+  llm: gemini_pro  # Reference to llm_configs
 
 writer_agent:
   role: "Content Writer and Educator"
@@ -22,8 +37,4 @@ writer_agent:
   allow_delegation: false
   respect_context_window: true
   verbose: true
-
-# LLM Configuration
-llm:
-  model: "openrouter/google/gemini-pro-1.5"
-  temperature: 0.7
+  llm: gemini_pro  # Reference to llm_configs

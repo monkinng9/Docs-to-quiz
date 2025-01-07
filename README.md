@@ -77,18 +77,37 @@ pip install -r requirements.txt
 
 ## Configuration
 
+### LLM Configuration
+Configure different LLM models for different agents:
+```yaml
+llm_configs:
+  gemini_pro:
+    model: "openrouter/google/gemini-pro-1.5"
+    temperature: 0.7
+  
+  gpt4:
+    model: "openai/gpt-4"
+    temperature: 0.5
+    
+  gpt35_turbo:
+    model: "openai/gpt-3.5-turbo"
+    temperature: 0.3
+```
+
 ### Agent Configuration (agents.yaml)
-Configure AI agents with specific roles and capabilities:
+Configure AI agents with specific roles, capabilities, and LLM preferences:
 ```yaml
 extract_agent:
   role: "Information Extractor"
   goal: "To analyze documents and extract key information"
   backstory: "A seasoned researcher with an eye for detail..."
+  llm: gemini_pro  # Use Gemini Pro for extraction
 
 writer_agent:
   role: "Content Writer and Educator"
   goal: "To create clear summaries and engaging quizzes"
   backstory: "A skilled educator with expertise..."
+  llm: gpt4  # Use GPT-4 for content generation
 ```
 
 ### Task Configuration (tasks.yaml)
