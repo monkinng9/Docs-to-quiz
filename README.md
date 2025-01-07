@@ -1,22 +1,23 @@
 # Document to Quiz Generator via CrewAI
 
 ## Overview
-This educational project is designed to transform documents into interactive quizzes, helping learners engage with and retain information more effectively. It uses a YAML-based configuration system for easy customization of agents and tasks.
+This educational project leverages CrewAI to transform documents into interactive quizzes, helping learners engage with and retain information more effectively. It employs a YAML-based configuration system for flexible customization of AI agents and tasks.
 
 ## Features
-- Convert text documents into quiz-style questions
-- Generate multiple-choice and open-ended questions
-- Support for various document formats
-- YAML-based configuration for easy customization
-- Modular architecture with separate configuration and code
-- Automatic generation of summaries and study guides
+- Convert text documents into comprehensive quiz-style questions
+- Generate multiple-choice and open-ended questions with detailed explanations
+- Support for various document formats and content types
+- YAML-based configuration for easy customization of agents and tasks
+- Modular architecture with clean separation of configuration and code
+- Automatic generation of summaries, study guides, and structured quizzes
+- Built-in monitoring and observability via OpenLIT integration
 
 ## Project Structure
 ```
 docs_to_quiz/
 ├── configs/
-│   ├── agents.yaml     # Agent configurations
-│   ├── tasks.yaml      # Task configurations
+│   ├── agents.yaml     # Agent configurations and roles
+│   ├── tasks.yaml      # Task definitions and workflows
 │   ├── config_loader.py # Configuration loading utilities
 │   └── models.py       # Pydantic data models
 ├── input/              # Input documents
@@ -64,13 +65,13 @@ flowchart TB
 ## Requirements
 
 ### Python Dependencies
-The project uses the following key dependencies:
-- `crewai`: AI agent framework for orchestrating tasks
-- `pydantic`: Data validation using Python type annotations
-- `PyYAML`: YAML file parsing and loading
-- `openlit`: Observability and monitoring
+Key dependencies include:
+- `crewai`: AI agent framework for task orchestration
+- `pydantic`: Data validation and settings management
+- `PyYAML`: YAML configuration parsing
+- `openlit`: System monitoring and observability
 
-To install dependencies, run:
+Install dependencies:
 ```bash
 pip install -r requirements.txt
 ```
@@ -78,7 +79,7 @@ pip install -r requirements.txt
 ## Configuration
 
 ### LLM Configuration
-Configure different LLM models for different agents:
+Configure LLM models for different agents:
 ```yaml
 llm_configs:
   gemini_pro:
@@ -95,7 +96,7 @@ llm_configs:
 ```
 
 ### Agent Configuration (agents.yaml)
-Configure AI agents with specific roles, capabilities, and LLM preferences:
+Define AI agents with specific roles and capabilities:
 ```yaml
 extract_agent:
   role: "Information Extractor"
@@ -111,7 +112,7 @@ writer_agent:
 ```
 
 ### Task Configuration (tasks.yaml)
-Define tasks with templates and expected outputs:
+Configure tasks with templates and outputs:
 ```yaml
 tasks:
   extract_info:
@@ -129,16 +130,17 @@ tasks:
 
 ### Prerequisites
 - Python 3.8+
-- Required Python libraries (install via `pip install -r requirements.txt`)
+- Required Python packages (see requirements.txt)
+- API keys for chosen LLM providers
 
 ### Installation
 1. Clone the repository
 2. Install dependencies: `pip install -r requirements.txt`
-3. Configure your environment variables if needed
+3. Configure environment variables (see below)
 
 ### Usage
 1. Place your input document in the `input/` directory
-2. Customize agent and task configurations in `configs/*.yaml` if needed
+2. Configure agents and tasks in `configs/*.yaml` as needed
 3. Run the generation script:
 ```bash
 python script_01.py
@@ -146,24 +148,25 @@ python script_01.py
 4. Find generated content in the `output/` directory
 
 ## Monitoring and Observability
-The project includes integration with OpenLIT for monitoring:
+Integrated with OpenLIT for system monitoring:
 
 ### OpenLIT Setup
-1. Start the OpenLIT services:
+1. Start OpenLIT services:
 ```bash
 docker-compose up -d
 ```
 
-2. Access the OpenLIT dashboard at `http://localhost:3002`
+2. Access dashboard: `http://localhost:3002`
 
 ### Environment Variables
-Configure the deployment using environment variables:
-- `OPENLIT_DB_USER`: Database username (default: `default`)
-- `OPENLIT_DB_PASSWORD`: Database password (default: `OPENLIT`)
-- `OPENLIT_DB_NAME`: Database name (default: `openlit`)
+Required environment variables:
+- `OPENLIT_DB_USER`: Database username
+- `OPENLIT_DB_PASSWORD`: Database password
+- `OPENLIT_DB_NAME`: Database name
+- `LLM_API_KEY`: API key for LLM provider
 
 ## Contributing
-Contributions are welcome! Please feel free to submit a Pull Request.
+Contributions welcome! Please submit a Pull Request with your improvements.
 
 ## License
-This project is licensed under the MIT License - see the LICENSE file for details.
+MIT License - see LICENSE file for details.
